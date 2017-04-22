@@ -71,6 +71,13 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
+// Gets a list of Polls by user id
+export function fetch(req, res) {
+  return Poll.find({ userId: req.user._id.toString() }).exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Gets a single Poll from the DB
 export function show(req, res) {
   return Poll.findById(req.params.id).exec()
@@ -81,6 +88,7 @@ export function show(req, res) {
 
 // Creates a new Poll in the DB
 export function create(req, res) {
+  req.body.userId = req.user.id;
   return Poll.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));

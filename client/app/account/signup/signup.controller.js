@@ -20,6 +20,12 @@ export default class SignupController {
 
   register(form) {
     this.submitted = true;
+    this.errors = {};
+    console.log(form);
+
+    form['name'].$setValidity('mongoose', true);
+    form['email'].$setValidity('mongoose', true);
+    form['password'].$setValidity('mongoose', true);
 
     if(form.$valid) {
       return this.Auth.createUser({

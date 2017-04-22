@@ -23,11 +23,20 @@ export class PollController {
   submitted = false;
 
   $onInit() {
-    if(this.$state.current.name === 'polls') {
-      this.$http.get('/api/polls')
-        .then(response => {
-          this.polls = response.data;
-        });
+    switch (this.$state.current.name) {
+      case 'polls':
+        this.$http.get('/api/polls')
+          .then(response => {
+            this.polls = response.data;
+          });
+            break;
+      case 'my-polls':
+            this.$http.get('/api/polls/fetch')
+              .then(response => {
+                this.polls = response.data;
+              });
+            break;
+      case 'default':
     }
   }
 
@@ -36,7 +45,11 @@ export class PollController {
     this.errors.addPoll = undefined;
 
     if (addPollForm.$valid) {
-      const options = this.newPoll.optionsString.split(',');
+      let options = this.newPoll.optionsString.split(',');
+
+      // Empty option filtering
+      options = options.filter(option => option);
+
       if (options.length <= 1) {
         return this.errors.addPoll = 'Please add minimum two options by comma separated ","';
       }
@@ -51,9 +64,6 @@ export class PollController {
         });
 
     }
-
-    /*this.newPoll = $scope
-    this.$http.post('/api/polls', newPoll)*/
   }
 }
 

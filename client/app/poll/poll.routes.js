@@ -9,7 +9,7 @@ export default function($stateProvider) {
     })
     .state('my-polls', {
       url: '/my-polls',
-      template: '<my-poll></my-poll>',
+      template: '<poll></poll>',
       authenticate: true
     })
     .state('add-poll', {
