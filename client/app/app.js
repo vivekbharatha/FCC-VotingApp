@@ -6,8 +6,6 @@ import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 
-import 'angular-socket-io';
-
 import uiRouter from 'angular-ui-router';
 import uiBootstrap from 'angular-ui-bootstrap';
 import 'angular-validation-match';
@@ -21,16 +19,14 @@ import account from './account';
 import admin from './admin';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
-import main from './main/main.component';
+import poll from './poll/poll.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
-import socket from '../components/socket/socket.service';
 
 import './app.css';
 
-angular.module('fccApp', [ngCookies, ngResource, ngSanitize, 'btford.socket-io', uiRouter,
-  uiBootstrap, _Auth, account, admin, 'validation.match', navbar, footer, main, constants,
-  socket, util
+angular.module('voteit', [ngCookies, ngResource, ngSanitize, uiRouter,
+  uiBootstrap, _Auth, account, admin, 'validation.match', navbar, footer, poll, constants, util
 ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {
@@ -48,7 +44,7 @@ angular.module('fccApp', [ngCookies, ngResource, ngSanitize, 'btford.socket-io',
 
 angular.element(document)
   .ready(() => {
-    angular.bootstrap(document, ['fccApp'], {
+    angular.bootstrap(document, ['voteit'], {
       strictDi: true
     });
   });

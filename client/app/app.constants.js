@@ -2,6 +2,6 @@
 
 import angular from 'angular';
 
-export default angular.module('fccApp.constants', [])
+export default angular.module('voteit.constants', [])
   .constant('appConfig', require('../../server/config/environment/shared'))
   .name;

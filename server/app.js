@@ -9,7 +9,7 @@ import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
 import config from './config/environment';
 import http from 'http';
-import seedDatabaseIfNeeded from './config/seed';
+// import seedDatabaseIfNeeded from './config/seed';
 
 // Connect to MongoDB
 mongoose.connect(config.mongo.uri, config.mongo.options);
@@ -21,11 +21,7 @@ mongoose.connection.on('error', function(err) {
 // Setup server
 var app = express();
 var server = http.createServer(app);
-var socketio = require('socket.io')(server, {
-  serveClient: config.env !== 'production',
-  path: '/socket.io-client'
-});
-require('./config/socketio').default(socketio);
+
 require('./config/express').default(app);
 require('./routes').default(app);
 
@@ -36,7 +32,7 @@ function startServer() {
   });
 }
 
-seedDatabaseIfNeeded();
+// seedDatabaseIfNeeded();
 setImmediate(startServer);
 
 // Expose app

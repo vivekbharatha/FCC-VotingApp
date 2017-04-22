@@ -7,10 +7,10 @@ module.exports = {
 
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://localhost/fcc-dev'
+    uri: 'mongodb://localhost/voteit-dev'
   },
 
   // Seed database on startup
-  seedDB: true
+  seedDB: false
 
 };

@@ -3,6 +3,6 @@
 import angular from 'angular';
 import LoginController from './login.controller';
 
-export default angular.module('fccApp.login', [])
+export default angular.module('voteit.login', [])
   .controller('LoginController', LoginController)
   .name;

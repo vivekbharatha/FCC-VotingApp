@@ -73,6 +73,6 @@ export function Modal($rootScope, $uibModal) {
   };
 }
 
-export default angular.module('fccApp.Modal', [])
+export default angular.module('voteit.Modal', [])
   .factory('Modal', Modal)
   .name;

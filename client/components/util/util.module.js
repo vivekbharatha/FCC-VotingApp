@@ -5,6 +5,6 @@ import {
   UtilService
 } from './util.service';
 
-export default angular.module('fccApp.util', [])
+export default angular.module('voteit.util', [])
   .factory('Util', UtilService)
   .name;
