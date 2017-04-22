@@ -42,6 +42,45 @@ export function isAuthenticated() {
 }
 
 /**
+ * Checks if user is authenticated and attach user
+ * Otherwise just returns
+ */
+export function getUserObject() {
+  return compose()
+  // Validate jwt
+    .use(function(req, res, next) {
+      // allow access_token to be passed through query parameter as well
+      if(req.query && req.query.hasOwnProperty('access_token')) {
+        req.headers.authorization = `Bearer ${req.query.access_token}`;
+      }
+      // IE11 forgets to set Authorization header sometimes. Pull from cookie instead.
+      if(req.query && typeof req.headers.authorization === 'undefined') {
+        req.headers.authorization = `Bearer ${req.cookies.token}`;
+      }
+
+      // token = 'Bearer undefined'; if no authorization is sent from client;
+      var token = req.headers.authorization.split(' ')[1];
+      if (token === 'undefined') return next();
+
+      validateJwt(req, res, next);
+    })
+    // Attach user to request
+    .use(function(req, res, next) {
+      if (!req.user) return next();
+
+      User.findById(req.user._id).exec()
+        .then(user => {
+          if(!user) {
+            return res.status(401).end();
+          }
+          req.user = user;
+          next();
+        })
+        .catch(err => next(err));
+    });
+}
+
+/**
  * Checks if the user role meets the minimum requirements of the route
  */
 export function hasRole(roleRequired) {

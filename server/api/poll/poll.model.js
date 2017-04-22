@@ -16,7 +16,8 @@ var PollSchema = new mongoose.Schema({
   userId: {
     type: String,
     ref: 'User'
-  }
+  },
+  votedUsers: [String]
 });
 
 export default mongoose.model('Poll', PollSchema);

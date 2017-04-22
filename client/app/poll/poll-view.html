@@ -9,7 +9,7 @@
               <option value="">Select an option</option>
               <option ng-repeat="(_option, count) in pc.poll.options" value="{{_option}}">{{ _option }}</option>
             </select>
-            <p>Don't have you option? <a ng-click="pc.showOptionCreation = !pc.showOptionCreation">Create new</a></p>
+            <p ng-show="pc.isLoggedIn()">Don't have you option? <a ng-click="pc.showOptionCreation = !pc.showOptionCreation">Create new</a></p>
             <div class="form-group" ng-show="pc.showOptionCreation">
               <label for="newOption">New Option</label>
               <input id="newOption" type="text" name="newOption" class="form-control" ng-model="pc.vote.newOption"/>

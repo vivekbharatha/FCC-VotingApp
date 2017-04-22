@@ -22,9 +22,10 @@ export class PollController {
 
 
   /*@ngInject*/
-  constructor($http, $state) {
+  constructor($http, $state, Auth) {
     this.$http = $http;
     this.$state = $state;
+    this.isLoggedIn = Auth.isLoggedInSync;
   }
 
   submitted = false;
@@ -49,6 +50,11 @@ export class PollController {
         this.$http.get('/api/polls/' + this.$state.params.id)
           .then(response => {
             this.poll = response.data;
+          })
+          .catch(error => {
+            if (error.data.name === 'CastError') {
+              return this.$state.go('polls');
+            }
           });
         break;
       case 'default':
@@ -98,7 +104,7 @@ export class PollController {
           this.$state.reload();
         })
         .catch(err => {
-          this.errors.votePoll = err.message;
+          this.errors.votePoll = err.data.message;
         });
 
     }

@@ -10,6 +10,7 @@ router.get('/', controller.index);
 router.get('/fetch/', auth.isAuthenticated(), controller.fetch);
 router.get('/:id', controller.show);
 router.post('/', auth.isAuthenticated(), controller.create);
+router.post('/vote/:id', auth.getUserObject(), controller.vote);
 router.put('/:id', auth.isAuthenticated(), controller.upsert);
 router.patch('/:id', auth.isAuthenticated(), controller.patch);
 router.delete('/:id', auth.isAuthenticated(), controller.destroy);

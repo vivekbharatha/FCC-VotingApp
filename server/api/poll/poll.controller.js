@@ -96,7 +96,7 @@ export function create(req, res) {
   req.body.options.forEach(function (option) {
     pollData.options[option] = 0;
   });
-  
+
   return Poll.create(pollData)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
@@ -110,6 +110,55 @@ export function upsert(req, res) {
   return Poll.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
 
     .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Vote Poll in the DB
+export function vote(req, res) {
+  if(!req.params.id) {
+    return res.status(400).json({ message: 'Invalid id' });
+  }
+
+  if(typeof req.body.option === 'undefined') {
+    return res.status(400).json({ message: 'No option given' });
+  }
+
+  var pollId = req.params.id;
+  var optionGiven = req.body.option;
+
+  return Poll.findById(req.params.id).exec()
+    .then(handleEntityNotFound(res))
+    .then(function (poll) {
+      var votedUserElement;
+
+      // Check already vote given condition
+      if (typeof req.user === 'undefined') {
+        votedUserElement = req.ip;
+      } else {
+        votedUserElement = req.user._id.toString();
+      }
+
+      var votedUsers = poll.votedUsers;
+
+      if (votedUsers.indexOf(votedUserElement) !== -1) {
+        return res.status(400).json({ message: 'Either from user or ip, you already given vote to this poll' });
+      }
+
+      votedUsers.push(votedUserElement);
+
+      // Check option or create option
+      var options = poll.options;
+      if (typeof options[optionGiven] === 'undefined') {
+        options[optionGiven] = 0;
+      }
+
+      options[optionGiven] = options[optionGiven] + 1;
+      Poll.update({_id: pollId}, { $set: { options: options, votedUsers: votedUsers } }, function (err, updatedPoll) {
+        if (err) return res.status(500).json({ message: 'Our bad server error :(' });
+        if (updatedPoll.nModified !== 1) return res.status(500).json({ message: 'Invalid poll' });
+        return res.json({});
+      });
+    })
     .catch(handleError(res));
 }
 
