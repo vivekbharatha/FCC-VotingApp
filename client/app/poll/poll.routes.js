@@ -7,6 +7,10 @@ export default function($stateProvider) {
       url: '/',
       template: '<poll></poll>'
     })
+    .state('poll', {
+      url: '/polls/{id}',
+      template: '<poll-view></poll-view>'
+    })
     .state('my-polls', {
       url: '/my-polls',
       template: '<poll></poll>',

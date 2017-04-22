@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row well">
+    <div class="col-md-6 col-sm-12">
+      <h3>{{ pc.poll.title }}</h3>
+      <div class="col-md-6 col-sm-12">
+        <form class="form" name="voteForm" ng-submit="pc.submitVote(voteForm)" novalidate>
+          <div class="form-group">
+            <select class="form-control" required>
+              <option value="">Select an option</option>
+              <option ng-repeat="_option in pc.poll.options" value="option">{{ _option }}</option>
+            </select>
+            <p>Don't have you option? <a ng-click="pc.showOptionCreation = !pc.showOptionCreation">Create new</a></p>
+            <div class="form-group" ng-show="pc.showOptionCreation">
+              <label for="newOption">New Option</label>
+              <input id="newOption" type="text" name="newOption" class="form-control" ng-model="pc.newOption" required />
+            </div>
+          </div>
+          <div class="form-group has-error">
+            <p class="help-block" ng-show="voteForm.option.$error.required && pc.submitted">
+              Please enter title.
+            </p>
+            <p class="help-block">{{ pc.errors.votePoll }}</p>
+          </div>
+          <button class="btn btn-primary" type="submit">Vote</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <h3>Votes</h3>
+      <form></form>
+    </div>
+  </div>
+</div>

@@ -14,6 +14,9 @@ export class PollController {
     addPoll: undefined
   };
 
+  showOptionCreation = false;
+
+
   /*@ngInject*/
   constructor($http, $state) {
     this.$http = $http;
@@ -36,8 +39,16 @@ export class PollController {
                 this.polls = response.data;
               });
             break;
+      case 'poll':
+        if (this.$state.params.id === '') return this.$state.go('polls');
+        this.$http.get('/api/polls/' + this.$state.params.id)
+          .then(response => {
+            this.poll = response.data;
+          });
+        break;
       case 'default':
     }
+
   }
 
   addPoll(addPollForm) {
@@ -56,7 +67,6 @@ export class PollController {
 
       this.$http.post('/api/polls', { title: this.newPoll.title, options })
         .then((response) => {
-          console.log(response);
           this.$state.go('my-polls');
         })
         .catch(err => {
@@ -70,7 +80,7 @@ export class PollController {
 export default angular.module('voteitApp.poll', [uiRouter])
   .config(routes)
   .component('poll', {
-    template: require('./poll.html'),
+    template: require('./polls.html'),
     controller: PollController,
     controllerAs: 'pc'
   })
@@ -81,6 +91,11 @@ export default angular.module('voteitApp.poll', [uiRouter])
   })
   .component('myPoll', {
     template: require('./my-polls.html'),
+    controller: PollController,
+    controllerAs: 'pc'
+  })
+  .component('pollView', {
+    template: require('./poll-view.html'),
     controller: PollController,
     controllerAs: 'pc'
   })
