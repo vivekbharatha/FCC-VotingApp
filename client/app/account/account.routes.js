@@ -11,12 +11,12 @@ export default function routes($stateProvider) {
   })
     .state('logout', {
       url: '/logout?referrer',
-      referrer: 'poll',
+      referrer: 'polls',
       template: '',
       controller($state, Auth) {
         'ngInject';
 
-        var referrer = $state.params.referrer || $state.current.referrer || 'poll';
+        var referrer = $state.params.referrer || $state.current.referrer || 'polls';
         Auth.logout();
         $state.go(referrer);
       }

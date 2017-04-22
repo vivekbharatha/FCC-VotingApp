@@ -4,10 +4,16 @@
 import angular from 'angular';
 
 export class NavbarComponent {
-  menu = [{
-    title: 'Home',
-    state: 'poll'
-  }];
+  menu = [
+    {
+    title: 'My Polls',
+    state: 'my-polls'
+    },
+    {
+      title: 'Add Poll',
+      state: 'add-poll'
+    }
+  ];
 
   isCollapsed = true;
 

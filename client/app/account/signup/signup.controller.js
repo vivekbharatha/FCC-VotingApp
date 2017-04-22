@@ -29,7 +29,7 @@ export default class SignupController {
       })
         .then(() => {
           // Account created, redirect to home
-          this.$state.go('poll');
+          this.$state.go('polls');
         })
         .catch(err => {
           err = err.data;

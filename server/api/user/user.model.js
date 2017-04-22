@@ -3,7 +3,6 @@
 import crypto from 'crypto';
 mongoose.Promise = require('bluebird');
 import mongoose, {Schema} from 'mongoose';
-import {registerEvents} from './user.events';
 
 var UserSchema = new Schema({
   name: String,
@@ -223,5 +222,4 @@ UserSchema.methods = {
   }
 };
 
-registerEvents(UserSchema);
 export default mongoose.model('User', UserSchema);

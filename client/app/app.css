@@ -47,3 +47,8 @@
 @import '../components/footer/footer.css';
 @import '../components/modal/modal.css';
 /* endinject */
+
+.register-block {
+  float: right;
+  line-height: 2;
+}
