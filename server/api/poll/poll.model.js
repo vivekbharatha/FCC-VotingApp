@@ -10,7 +10,7 @@ var PollSchema = new mongoose.Schema({
     required: true
   },
   options: {
-    type: [String],
+    type: mongoose.Schema.Types.Mixed,
     required: true
   },
   userId: {

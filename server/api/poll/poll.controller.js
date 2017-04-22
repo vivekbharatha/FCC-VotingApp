@@ -88,8 +88,16 @@ export function show(req, res) {
 
 // Creates a new Poll in the DB
 export function create(req, res) {
-  req.body.userId = req.user.id;
-  return Poll.create(req.body)
+  var pollData = {
+    title: req.body.title,
+    options: {}
+  };
+  pollData.userId = req.user.id;
+  req.body.options.forEach(function (option) {
+    pollData.options[option] = 0;
+  });
+  
+  return Poll.create(pollData)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }

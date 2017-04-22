@@ -9,9 +9,13 @@ export class PollController {
 
   polls = [];
   newPoll= { title: '', optionsString: [] };
+  vote = {option: ''};
+
+  heading = 'List of all polls in VoteIt';
 
   errors = {
-    addPoll: undefined
+    addPoll: undefined,
+    votePoll: undefined
   };
 
   showOptionCreation = false;
@@ -34,6 +38,7 @@ export class PollController {
           });
             break;
       case 'my-polls':
+            this.heading = 'List of all your polls';
             this.$http.get('/api/polls/fetch')
               .then(response => {
                 this.polls = response.data;
@@ -51,6 +56,7 @@ export class PollController {
 
   }
 
+  // Creating a poll
   addPoll(addPollForm) {
     this.submitted = true;
     this.errors.addPoll = undefined;
@@ -71,6 +77,28 @@ export class PollController {
         })
         .catch(err => {
           this.errors.addPoll = err.message;
+        });
+
+    }
+  }
+
+  // Submit a vote to a poll
+  submitVote(voteForm) {
+    this.submitted = true;
+    this.errors.votePoll = undefined;
+
+    if (voteForm.$valid) {
+
+      if ((!this.vote.option && this.showOptionCreation && !this.vote.newOption) || (!this.vote.option && !this.showOptionCreation)) {
+        return this.errors.votePoll = 'Choose one option or create new option';
+      }
+
+      this.$http.post('/api/polls/vote/' + this.poll._id, { option: this.vote.option || this.vote.newOption })
+        .then((response) => {
+          this.$state.reload();
+        })
+        .catch(err => {
+          this.errors.votePoll = err.message;
         });
 
     }
