@@ -45,6 +45,7 @@ export class PollController {
             this.$http.get('/api/polls/fetch')
               .then(response => {
                 this.polls = response.data;
+                this.noMyPolls = this.polls.length === 0;
               });
             break;
       case 'poll':
@@ -121,6 +122,17 @@ export class PollController {
     } else {
       return false;
     }
+  }
+
+  // Delete poll
+  deletePoll() {
+    if (!confirm('Are you sure to delete this poll ?')) {
+      return;
+    }
+    this.$http.delete('/api/polls/' + this.poll._id)
+      .then(response => {
+        this.$state.go('my-polls');
+      });
   }
 }
 

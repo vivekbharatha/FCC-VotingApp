@@ -1,9 +1,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4 col-md-offset-4 col-sm-12">
-      <h2>{{ pc.heading }}</h2>
+      <h5 class="text-center">{{ pc.heading }}</h5>
       <div ng-repeat="poll in pc.polls">
         <a ui-sref="poll({id: poll._id})">{{ poll.title }}</a>
+      </div>
+      <div ng-show="pc.noMyPolls">
+        <p>No Polls for you :( Create <a ui-sref="add-poll">here</a> </p>
       </div>
     </div>
   </div>
