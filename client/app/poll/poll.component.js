@@ -25,7 +25,8 @@ export class PollController {
   constructor($http, $state, Auth) {
     this.$http = $http;
     this.$state = $state;
-    this.isLoggedIn = Auth.isLoggedInSync;
+    this.isLoggedInSync = Auth.isLoggedInSync;
+    this.getCurrentUserSync = Auth.getCurrentUserSync;
   }
 
   submitted = false;
@@ -40,6 +41,7 @@ export class PollController {
             break;
       case 'my-polls':
             this.heading = 'List of all your polls';
+            this.isLoggedIn = this.isLoggedInSync();
             this.$http.get('/api/polls/fetch')
               .then(response => {
                 this.polls = response.data;
@@ -50,6 +52,8 @@ export class PollController {
         this.$http.get('/api/polls/' + this.$state.params.id)
           .then(response => {
             this.poll = response.data;
+            this.isLoggedIn = this.isLoggedInSync();
+            this.currentUser = this.getCurrentUserSync();
           })
           .catch(error => {
             if (error.data.name === 'CastError') {
@@ -107,6 +111,15 @@ export class PollController {
           this.errors.votePoll = err.data.message;
         });
 
+    }
+  }
+
+  // Check current poll owner is user
+  isItMine() {
+    if (this.poll && this.currentUser) {
+      return this.poll.userId === this.currentUser._id;
+    } else {
+      return false;
     }
   }
 }

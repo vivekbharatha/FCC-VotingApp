@@ -9,7 +9,7 @@
               <option value="">Select an option</option>
               <option ng-repeat="(_option, count) in pc.poll.options" value="{{_option}}">{{ _option }}</option>
             </select>
-            <p ng-show="pc.isLoggedIn()">Don't have you option? <a ng-click="pc.showOptionCreation = !pc.showOptionCreation">Create new</a></p>
+            <p ng-show="pc.isLoggedIn">Don't have you option? <a ng-click="pc.showOptionCreation = !pc.showOptionCreation">Create new</a></p>
             <div class="form-group" ng-show="pc.showOptionCreation">
               <label for="newOption">New Option</label>
               <input id="newOption" type="text" name="newOption" class="form-control" ng-model="pc.vote.newOption"/>
@@ -24,7 +24,9 @@
     </div>
     <div class="col-md-6 col-sm-12">
       <h3>Votes</h3>
-      <form></form>
+    </div>
+    <div class="col-md-2 col-md-offset-10 col-sm-2" ng-show="pc.isItMine()">
+      <button type="button" ng-click="pc.deletePoll()" class="btn btn-danger">Delete</button>
     </div>
   </div>
 </div>
