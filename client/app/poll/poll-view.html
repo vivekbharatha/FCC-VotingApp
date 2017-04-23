@@ -24,6 +24,8 @@
     </div>
     <div class="col-md-6 col-sm-12">
       <h3>Votes</h3>
+      <canvas id="pollChart" width="200" height="200"></canvas>
+      <div id="legendPoll"></div>
     </div>
     <div class="col-md-2 col-md-offset-10 col-sm-2" ng-show="pc.isItMine()">
       <button type="button" ng-click="pc.deletePoll()" class="btn btn-danger">Delete</button>

@@ -20,6 +20,15 @@ export class PollController {
 
   showOptionCreation = false;
 
+  getRandomColor () {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
 
   /*@ngInject*/
   constructor($http, $state, Auth) {
@@ -40,7 +49,7 @@ export class PollController {
           });
             break;
       case 'my-polls':
-            this.heading = 'List of all your polls';
+            this.heading = 'List of your polls';
             this.isLoggedIn = this.isLoggedInSync();
             this.$http.get('/api/polls/fetch')
               .then(response => {
@@ -55,8 +64,40 @@ export class PollController {
             this.poll = response.data;
             this.isLoggedIn = this.isLoggedInSync();
             this.currentUser = this.getCurrentUserSync();
+            var options = this.poll.options;
+            var optionLabels = [];
+            var backgroundColors = [];
+            var optionsData = [];
+
+            for(var key in options){
+              if (options.hasOwnProperty(key)) {
+                optionLabels.push(key);
+                optionsData.push(options[key]);
+                backgroundColors.push(this.getRandomColor());
+              }
+            }
+
+            var ctx = document.getElementById("pollChart");
+            var pollChart = new Chart(ctx, {
+              type: 'pie',
+              data: {
+                labels: optionLabels,
+                datasets: [
+                  {
+                    data: optionsData,
+                    backgroundColor: backgroundColors
+                  }]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false
+              }
+            });
+
+            document.getElementById("legendPoll").innerHTML = pollChart.generateLegend();
           })
           .catch(error => {
+            console.log(error);
             if (error.data.name === 'CastError') {
               return this.$state.go('polls');
             }
@@ -73,10 +114,12 @@ export class PollController {
     this.errors.addPoll = undefined;
 
     if (addPollForm.$valid) {
-      let options = this.newPoll.optionsString.split(',');
+      let options = this.newPoll.optionsString.split(',').map(option => option.trim());
 
       // Empty option filtering
       options = options.filter(option => option);
+
+      console.log(options);
 
       if (options.length <= 1) {
         return this.errors.addPoll = 'Please add minimum two options by comma separated ","';
