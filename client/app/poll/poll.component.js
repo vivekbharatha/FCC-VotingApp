@@ -31,9 +31,10 @@ export class PollController {
 
 
   /*@ngInject*/
-  constructor($http, $state, Auth) {
+  constructor($http, $state, $location, Auth) {
     this.$http = $http;
     this.$state = $state;
+    this.$location = $location;
     this.isLoggedInSync = Auth.isLoggedInSync;
     this.getCurrentUserSync = Auth.getCurrentUserSync;
   }
@@ -118,8 +119,6 @@ export class PollController {
 
       // Empty option filtering
       options = options.filter(option => option);
-
-      console.log(options);
 
       if (options.length <= 1) {
         return this.errors.addPoll = 'Please add minimum two options by comma separated ","';

@@ -13,9 +13,10 @@ export default class LoginController {
 
 
   /*@ngInject*/
-  constructor(Auth, $state) {
+  constructor(Auth, $state, $http) {
     this.Auth = Auth;
     this.$state = $state;
+    this.$http = $http;
   }
 
   login(form) {
@@ -34,5 +35,16 @@ export default class LoginController {
           this.errors.login = err.message;
         });
     }
+  }
+
+  twitterLogin() {
+    this.$http.post('/auth/twitter')
+      .then(() => {
+        // Logged in, redirect to home
+        this.$state.go('polls');
+      })
+      .catch(err => {
+        this.errors.login = err.message;
+      });
   }
 }

@@ -53,3 +53,14 @@
   float: right;
   line-height: 2;
 }
+
+.twitter-signin-btn {
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+
+.twitter-signin-btn img {
+  width: 100%;
+  max-height: 50px;
+}

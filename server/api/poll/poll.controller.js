@@ -133,7 +133,10 @@ export function vote(req, res) {
 
       // Check already vote given condition
       if (typeof req.user === 'undefined') {
-        votedUserElement = req.ip;
+        votedUserElement = req.headers['x-forwarded-for'] ||
+          req.connection.remoteAddress ||
+          req.socket.remoteAddress ||
+          req.connection.socket.remoteAddress;
       } else {
         votedUserElement = req.user._id.toString();
       }
