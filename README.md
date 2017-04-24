@@ -8,7 +8,6 @@ git clone https://github.com/vivekbharatha/VoteIt.git && cd VoteIt
 ```
 Install the packages and start the server.
 ```sh
-$ cd 
 $ npm install
 $ npm start
 ```
