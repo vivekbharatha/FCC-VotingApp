@@ -23,8 +23,8 @@ module.exports = {
   },
   // Twitter
   twitter: {
-    TWITTER_CONSUMER_KEY: TWITTER_CONSUMER_KEY,
-    TWITTER_CONSUMER_SECRET: TWITTER_CONSUMER_SECRET,
+    TWITTER_CONSUMER_KEY: process.env.TWITTER_CONSUMER_KEY,
+    TWITTER_CONSUMER_SECRET: process.env.TWITTER_CONSUMER_SECRET,
     callbackURL: "http://127.0.0.1:3000/auth/twitter/callback"
   }
 };
