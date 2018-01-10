@@ -21,6 +21,7 @@ mongoose.connection.on('error', function(err) {
 // Setup server
 var app = express();
 var server = http.createServer(app);
+require('dotenv').config();
 
 require('./config/express').default(app);
 require('./routes').default(app);
